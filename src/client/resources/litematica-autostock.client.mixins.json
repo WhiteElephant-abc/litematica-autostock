@@ -3,7 +3,7 @@
 	"package": "io.github.whiteelephantabc.autostock.client.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"client": [
-		"ExampleClientMixin"
+		"MenuScreensMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

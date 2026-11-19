@@ -16,12 +16,6 @@
 	"icon": "assets/litematica-autostock/icon.png",
 	"environment": "client",
 	"entrypoints": {
-		"main": [
-			{
-				"value": "io.github.whiteelephantabc.autostock.LitematicaAutostock",
-				"adapter": "kotlin"
-			}
-		],
 		"client": [
 			{
 				"value": "io.github.whiteelephantabc.autostock.client.LitematicaAutostockClient",
@@ -30,7 +24,6 @@
 		]
 	},
 	"mixins": [
-		"litematica-autostock.mixins.json",
 		{
 			"config": "litematica-autostock.client.mixins.json",
 			"environment": "client"
@@ -45,5 +38,8 @@
 		"malilib": ">=0.30.2- <0.31.0-",
 		"litematica": "*",
 		"baritone": "*"
+	},
+	"suggests": {
+		"minihud": "*"
 	}
 }

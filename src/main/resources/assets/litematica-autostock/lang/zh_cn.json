@@ -1,0 +1,15 @@
+{
+	"litematica-autostock.gui.title.configs": "Litematica AutoStock 配置",
+	"litematica-autostock.config.generic.name.searchRadius": "搜索半径",
+	"litematica-autostock.config.generic.comment.searchRadius": "以指令执行位置为中心的水平搜索半径（格）。",
+	"litematica-autostock.config.generic.name.verticalRange": "垂直范围",
+	"litematica-autostock.config.generic.comment.verticalRange": "以指令执行位置为中心的垂直搜索范围（格）。",
+	"litematica-autostock.config.generic.name.containerWhitelist": "容器白名单",
+	"litematica-autostock.config.generic.comment.containerWhitelist": "只扫描列表中的方块 ID（如 minecraft:chest）；留空表示允许所有容器。",
+	"litematica-autostock.config.generic.name.allowBreakDuringPathing": "寻路时允许破坏",
+	"litematica-autostock.config.generic.comment.allowBreakDuringPathing": "寻路期间是否允许 Baritone 破坏方块。",
+	"litematica-autostock.config.generic.name.allowPlaceDuringPathing": "寻路时允许放置",
+	"litematica-autostock.config.generic.comment.allowPlaceDuringPathing": "寻路期间是否允许 Baritone 放置方块。",
+	"litematica-autostock.config.generic.name.showSearchRange": "显示搜索范围",
+	"litematica-autostock.config.generic.comment.showSearchRange": "使用 MiniHUD 显示搜索范围的圆柱。"
+}

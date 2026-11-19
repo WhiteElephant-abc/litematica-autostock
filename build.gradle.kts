@@ -2,16 +2,24 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
 	id("net.fabricmc.fabric-loom")
-	`maven-publish`
 	id("org.jetbrains.kotlin.jvm") version "2.4.21"
+	id("org.jetbrains.kotlin.plugin.serialization") version "2.4.21"
 }
 
 repositories {
-	// Add repositories to retrieve artifacts from in here.
-	// You should only use this when depending on other mods because
-	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
-	// for more information about repositories.
+	// Modrinth maven for Litematica, MaLiLib and MiniHUD
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Modrinth"
+				url = uri("https://api.modrinth.com/maven")
+			}
+		}
+		filter {
+			includeGroup("maven.modrinth")
+		}
+	}
+	mavenCentral()
 }
 
 loom {
@@ -26,13 +34,19 @@ loom {
 }
 
 dependencies {
-	// To change the versions see the gradle.properties file
 	minecraft("com.mojang:minecraft:${providers.gradleProperty("minecraft_version").get()}")
 	implementation("net.fabricmc:fabric-loader:${providers.gradleProperty("loader_version").get()}")
-
-	// Fabric API. This is technically optional, but you probably want it anyway.
 	implementation("net.fabricmc.fabric-api:fabric-api:${providers.gradleProperty("fabric_api_version").get()}")
-    implementation("net.fabricmc:fabric-language-kotlin:${providers.gradleProperty("fabric_kotlin_version").get()}")
+	implementation("net.fabricmc:fabric-language-kotlin:${providers.gradleProperty("fabric_kotlin_version").get()}")
+
+	// 26.3 jars are not obfuscated, so no remap configurations are used.
+	implementation("maven.modrinth:litematica:0.29.1")
+	implementation("maven.modrinth:malilib:0.30.2")
+	compileOnly("maven.modrinth:minihud:0.41.2")
+
+	// Baritone 26.3 (Fabric). Drop the built jar into libs/.
+	compileOnly(fileTree("libs") { include("baritone*.jar") })
+	runtimeOnly(fileTree("libs") { include("baritone*.jar") })
 }
 
 tasks.processResources {
@@ -55,9 +69,6 @@ kotlin {
 }
 
 java {
-	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-	// if it is present.
-	// If you remove this line, sources will not be generated.
 	withSourcesJar()
 
 	sourceCompatibility = JavaVersion.VERSION_25
@@ -70,22 +81,5 @@ tasks.jar {
 
 	from("LICENSE") {
 		rename { "${it}_$projectName" }
-	}
-}
-
-// configure the maven publication
-publishing {
-	publications {
-		register<MavenPublication>("mavenJava") {
-			from(components["java"])
-		}
-	}
-
-	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-	repositories {
-		// Add repositories to publish to here.
-		// Notice: This block does NOT have the same function as the block in the top level.
-		// The repositories here will be used for publishing your artifact, not for
-		// retrieving dependencies.
 	}
 }
