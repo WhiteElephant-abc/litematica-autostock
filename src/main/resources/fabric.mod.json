@@ -2,18 +2,19 @@
 	"schemaVersion": 1,
 	"id": "litematica-autostock",
 	"version": "${version}",
-	"name": "litematica-autostock",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "Litematica AutoStock",
+	"description": "Client-side Litematica addon that automatically gathers missing materials from nearby containers using Baritone.",
 	"authors": [
-		"Me!"
+		"WhiteElephant-abc"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/WhiteElephant-abc/litematica-autostock",
+		"sources": "https://github.com/WhiteElephant-abc/litematica-autostock",
+		"issues": "https://github.com/WhiteElephant-abc/litematica-autostock/issues"
 	},
-	"license": "CC0-1.0",
+	"license": "GPL-3.0-or-later",
 	"icon": "assets/litematica-autostock/icon.png",
-	"environment": "*",
+	"environment": "client",
 	"entrypoints": {
 		"main": [
 			{
@@ -37,9 +38,12 @@
 	],
 	"depends": {
 		"fabricloader": ">=0.20.1",
-		"minecraft": "~26.3",
+		"minecraft": ">=26.3 <26.4",
 		"java": ">=25",
 		"fabric-api": "*",
-		"fabric-language-kotlin": "*"
+		"fabric-language-kotlin": "*",
+		"malilib": ">=0.30.2- <0.31.0-",
+		"litematica": "*",
+		"baritone": "*"
 	}
 }
