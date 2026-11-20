@@ -13,6 +13,9 @@ object AutoStockConfig {
 	val defaultItemCount: Int
 		get() = AutoStockConfigs.DEFAULT_ITEM_COUNT.integerValue
 
+	val autoRefreshMaterialList: Boolean
+		get() = AutoStockConfigs.AUTO_REFRESH_MATERIAL_LIST.booleanValue
+
 	val allowBreakDuringPathing: Boolean
 		get() = AutoStockConfigs.ALLOW_BREAK_DURING_PATHING.booleanValue
 

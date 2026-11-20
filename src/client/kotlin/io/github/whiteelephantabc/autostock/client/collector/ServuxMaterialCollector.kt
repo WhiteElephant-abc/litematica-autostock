@@ -93,8 +93,11 @@ class ServuxMaterialCollector : MaterialCollector, ContainerPathingListener {
 				job = scope.launch { collect(MaterialMatcher.missing(list), level, center) }
 			},
 			onError = {
-				logger.warn("material list refresh failed: {}", it)
-				Minecraft.getInstance().execute { message("Material list refresh failed: $it") }
+				logger.warn("material list unavailable: {}", it)
+				Minecraft.getInstance().execute {
+					message("Material list unavailable: $it")
+					finishScan()
+				}
 			}
 		)
 	}
@@ -301,6 +304,7 @@ class ServuxMaterialCollector : MaterialCollector, ContainerPathingListener {
 	override fun onPathingComplete() {
 		restorePathingSettings()
 		finishScan()
+		reportRemaining()
 		logger.info("pathing complete")
 	}
 
@@ -308,7 +312,18 @@ class ServuxMaterialCollector : MaterialCollector, ContainerPathingListener {
 		ContainerSession.cancel()
 		restorePathingSettings()
 		finishScan()
+		reportRemaining()
 		logger.info("pathing cancelled")
+	}
+
+	private fun reportRemaining() {
+		if (remaining.isEmpty()) return
+
+		val text = remaining.entries.joinToString(", ") { (item, count) ->
+			"${BuiltInRegistries.ITEM.getKey(item)} x$count"
+		}
+
+		message("Missing materials: $text")
 	}
 
 	override fun onPathingSkipped(pos: BlockPos, reason: String) {

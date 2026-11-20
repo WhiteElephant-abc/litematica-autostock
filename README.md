@@ -41,6 +41,7 @@ The config screen is registered with MaLiLib (mod list -> Litematica AutoStock).
 - `verticalRange` — vertical search range (default 16)
 - `containerWhitelist` — block IDs to scan; empty means all containers (default: chests, trapped chests, barrels and all shulker boxes)
 - `defaultItemCount` — count used when an item is given without an explicit count
+- `autoRefreshMaterialList` — rebuild the material list when the command starts; disable to use the list currently open in Litematica
 - `allowBreakDuringPathing` — whether Baritone may break blocks while pathing (default off)
 - `allowPlaceDuringPathing` — whether Baritone may place blocks while pathing (default on)
 - `showSearchRange` — draw the search range with MiniHUD

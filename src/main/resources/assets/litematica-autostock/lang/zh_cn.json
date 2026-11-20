@@ -8,6 +8,8 @@
 	"litematica-autostock.config.generic.comment.containerWhitelist": "只扫描列表中的方块 ID（如 minecraft:chest）；留空表示允许所有容器。",
 	"litematica-autostock.config.generic.name.defaultItemCount": "默认物品数量",
 	"litematica-autostock.config.generic.comment.defaultItemCount": "命令中省略数量时，每个物品取多少个。",
+	"litematica-autostock.config.generic.name.autoRefreshMaterialList": "自动刷新材料列表",
+	"litematica-autostock.config.generic.comment.autoRefreshMaterialList": "命令开始时重新生成原理图材料列表；关闭后直接使用 Litematica 当前的材料列表。",
 	"litematica-autostock.config.generic.name.allowBreakDuringPathing": "寻路时允许破坏",
 	"litematica-autostock.config.generic.comment.allowBreakDuringPathing": "寻路期间是否允许 Baritone 破坏方块。",
 	"litematica-autostock.config.generic.name.allowPlaceDuringPathing": "寻路时允许放置",

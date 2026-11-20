@@ -43,6 +43,7 @@ data class AutoStockConfigData(
 	val verticalRange: Int? = null,
 	val containerWhitelist: List<String>? = null,
 	val defaultItemCount: Int? = null,
+	val autoRefreshMaterialList: Boolean? = null,
 	val allowBreakDuringPathing: Boolean? = null,
 	val allowPlaceDuringPathing: Boolean? = null,
 	val showSearchRange: Boolean? = null
@@ -63,6 +64,7 @@ object AutoStockConfigs {
 	val CONTAINER_WHITELIST =
 		ConfigStringList("containerWhitelist", ImmutableList.copyOf(DEFAULT_CONTAINER_WHITELIST)).apply(GENERIC_KEY)
 	val DEFAULT_ITEM_COUNT = ConfigInteger("defaultItemCount", 1, 1, 9999).apply(GENERIC_KEY)
+	val AUTO_REFRESH_MATERIAL_LIST = ConfigBoolean("autoRefreshMaterialList", true).apply(GENERIC_KEY)
 	val ALLOW_BREAK_DURING_PATHING = ConfigBoolean("allowBreakDuringPathing", false).apply(GENERIC_KEY)
 	val ALLOW_PLACE_DURING_PATHING = ConfigBoolean("allowPlaceDuringPathing", true).apply(GENERIC_KEY)
 	val SHOW_SEARCH_RANGE = ConfigBoolean("showSearchRange", true).apply(GENERIC_KEY)
@@ -72,6 +74,7 @@ object AutoStockConfigs {
 		VERTICAL_RANGE,
 		CONTAINER_WHITELIST,
 		DEFAULT_ITEM_COUNT,
+		AUTO_REFRESH_MATERIAL_LIST,
 		ALLOW_BREAK_DURING_PATHING,
 		ALLOW_PLACE_DURING_PATHING,
 		SHOW_SEARCH_RANGE
@@ -92,6 +95,7 @@ object AutoStockConfigs {
 		data.verticalRange?.let { VERTICAL_RANGE.setIntegerValue(it) }
 		data.containerWhitelist?.let { CONTAINER_WHITELIST.setStrings(it) }
 		data.defaultItemCount?.let { DEFAULT_ITEM_COUNT.setIntegerValue(it) }
+		data.autoRefreshMaterialList?.let { AUTO_REFRESH_MATERIAL_LIST.setBooleanValue(it) }
 		data.allowBreakDuringPathing?.let { ALLOW_BREAK_DURING_PATHING.setBooleanValue(it) }
 		data.allowPlaceDuringPathing?.let { ALLOW_PLACE_DURING_PATHING.setBooleanValue(it) }
 		data.showSearchRange?.let { SHOW_SEARCH_RANGE.setBooleanValue(it) }
@@ -106,6 +110,7 @@ object AutoStockConfigs {
 			verticalRange = VERTICAL_RANGE.integerValue,
 			containerWhitelist = CONTAINER_WHITELIST.strings,
 			defaultItemCount = DEFAULT_ITEM_COUNT.integerValue,
+			autoRefreshMaterialList = AUTO_REFRESH_MATERIAL_LIST.booleanValue,
 			allowBreakDuringPathing = ALLOW_BREAK_DURING_PATHING.booleanValue,
 			allowPlaceDuringPathing = ALLOW_PLACE_DURING_PATHING.booleanValue,
 			showSearchRange = SHOW_SEARCH_RANGE.booleanValue
