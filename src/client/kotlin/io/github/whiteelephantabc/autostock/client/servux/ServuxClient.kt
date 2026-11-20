@@ -7,14 +7,12 @@ import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.withTimeoutOrNull
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
-import net.minecraft.client.Minecraft
 import net.minecraft.core.BlockPos
 import org.slf4j.LoggerFactory
 import kotlin.time.Duration.Companion.seconds
 
 object ServuxClient {
 	private val logger = LoggerFactory.getLogger("litematica-autostock/servux")
-	private var receiverRegistered: Boolean = false
 	private var joined: Boolean = false
 	private var retryTicks: Int = 0
 	private var attempts: Int = 0
@@ -40,10 +38,6 @@ object ServuxClient {
 	}
 
 	fun tick() {
-		if (!receiverRegistered) {
-			registerReceiver()
-		}
-
 		if (!joined || available || attempts >= 10) {
 			return
 		}
@@ -84,21 +78,6 @@ object ServuxClient {
 		}
 	}
 
-	private fun registerReceiver() {
-		if (receiverRegistered) {
-			return
-		}
-
-		try {
-			ClientPlayNetworking.registerGlobalReceiver(ServuxLitematicaPacket.Payload.ID) { payload, _ ->
-				Minecraft.getInstance().execute { handle(payload.data()) }
-			}
-			receiverRegistered = true
-		} catch (e: Throwable) {
-			logger.warn("Failed to register Servux receiver", e)
-		}
-	}
-
 	private fun sendMetadataRequest() {
 		try {
 			val nbt = CompoundData()
@@ -111,7 +90,7 @@ object ServuxClient {
 		}
 	}
 
-	private fun handle(data: ServuxLitematicaPacket) {
+	fun handlePacket(data: ServuxLitematicaPacket) {
 		when (data.type) {
 			ServuxLitematicaPacket.Type.PACKET_S2C_METADATA -> {
 				if (available) {
