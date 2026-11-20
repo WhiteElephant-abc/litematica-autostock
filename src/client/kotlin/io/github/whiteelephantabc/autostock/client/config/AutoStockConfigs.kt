@@ -39,12 +39,13 @@ private val DEFAULT_CONTAINER_WHITELIST: List<String> = listOf(
 
 @Serializable
 data class AutoStockConfigData(
-	val searchRadius: Int = 16,
-	val verticalRange: Int = 16,
-	val containerWhitelist: List<String> = DEFAULT_CONTAINER_WHITELIST,
-	val allowBreakDuringPathing: Boolean = false,
-	val allowPlaceDuringPathing: Boolean = true,
-	val showSearchRange: Boolean = true
+	val searchRadius: Int? = null,
+	val verticalRange: Int? = null,
+	val containerWhitelist: List<String>? = null,
+	val defaultItemCount: Int? = null,
+	val allowBreakDuringPathing: Boolean? = null,
+	val allowPlaceDuringPathing: Boolean? = null,
+	val showSearchRange: Boolean? = null
 )
 
 object AutoStockConfigs {
@@ -61,6 +62,7 @@ object AutoStockConfigs {
 	val VERTICAL_RANGE = ConfigInteger("verticalRange", 16, 0, 64).apply(GENERIC_KEY)
 	val CONTAINER_WHITELIST =
 		ConfigStringList("containerWhitelist", ImmutableList.copyOf(DEFAULT_CONTAINER_WHITELIST)).apply(GENERIC_KEY)
+	val DEFAULT_ITEM_COUNT = ConfigInteger("defaultItemCount", 1, 1, 9999).apply(GENERIC_KEY)
 	val ALLOW_BREAK_DURING_PATHING = ConfigBoolean("allowBreakDuringPathing", false).apply(GENERIC_KEY)
 	val ALLOW_PLACE_DURING_PATHING = ConfigBoolean("allowPlaceDuringPathing", true).apply(GENERIC_KEY)
 	val SHOW_SEARCH_RANGE = ConfigBoolean("showSearchRange", true).apply(GENERIC_KEY)
@@ -69,6 +71,7 @@ object AutoStockConfigs {
 		SEARCH_RADIUS,
 		VERTICAL_RANGE,
 		CONTAINER_WHITELIST,
+		DEFAULT_ITEM_COUNT,
 		ALLOW_BREAK_DURING_PATHING,
 		ALLOW_PLACE_DURING_PATHING,
 		SHOW_SEARCH_RANGE
@@ -85,12 +88,13 @@ object AutoStockConfigs {
 				return
 			}
 
-		SEARCH_RADIUS.setIntegerValue(data.searchRadius)
-		VERTICAL_RANGE.setIntegerValue(data.verticalRange)
-		CONTAINER_WHITELIST.setStrings(data.containerWhitelist)
-		ALLOW_BREAK_DURING_PATHING.setBooleanValue(data.allowBreakDuringPathing)
-		ALLOW_PLACE_DURING_PATHING.setBooleanValue(data.allowPlaceDuringPathing)
-		SHOW_SEARCH_RANGE.setBooleanValue(data.showSearchRange)
+		data.searchRadius?.let { SEARCH_RADIUS.setIntegerValue(it) }
+		data.verticalRange?.let { VERTICAL_RANGE.setIntegerValue(it) }
+		data.containerWhitelist?.let { CONTAINER_WHITELIST.setStrings(it) }
+		data.defaultItemCount?.let { DEFAULT_ITEM_COUNT.setIntegerValue(it) }
+		data.allowBreakDuringPathing?.let { ALLOW_BREAK_DURING_PATHING.setBooleanValue(it) }
+		data.allowPlaceDuringPathing?.let { ALLOW_PLACE_DURING_PATHING.setBooleanValue(it) }
+		data.showSearchRange?.let { SHOW_SEARCH_RANGE.setBooleanValue(it) }
 	}
 
 	fun save() {
@@ -101,6 +105,7 @@ object AutoStockConfigs {
 			searchRadius = SEARCH_RADIUS.integerValue,
 			verticalRange = VERTICAL_RANGE.integerValue,
 			containerWhitelist = CONTAINER_WHITELIST.strings,
+			defaultItemCount = DEFAULT_ITEM_COUNT.integerValue,
 			allowBreakDuringPathing = ALLOW_BREAK_DURING_PATHING.booleanValue,
 			allowPlaceDuringPathing = ALLOW_PLACE_DURING_PATHING.booleanValue,
 			showSearchRange = SHOW_SEARCH_RANGE.booleanValue

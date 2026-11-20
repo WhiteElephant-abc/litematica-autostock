@@ -10,6 +10,9 @@ object AutoStockConfig {
 	val containerWhitelist: List<String>
 		get() = AutoStockConfigs.CONTAINER_WHITELIST.strings
 
+	val defaultItemCount: Int
+		get() = AutoStockConfigs.DEFAULT_ITEM_COUNT.integerValue
+
 	val allowBreakDuringPathing: Boolean
 		get() = AutoStockConfigs.ALLOW_BREAK_DURING_PATHING.booleanValue
 

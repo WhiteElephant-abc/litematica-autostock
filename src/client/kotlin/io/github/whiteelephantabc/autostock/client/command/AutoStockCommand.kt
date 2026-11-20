@@ -6,6 +6,7 @@ import baritone.api.command.argument.IArgConsumer
 import baritone.api.command.datatypes.ItemById
 import baritone.api.command.exception.CommandInvalidTypeException
 import io.github.whiteelephantabc.autostock.client.AutoStockManager
+import io.github.whiteelephantabc.autostock.client.config.AutoStockConfig
 import io.github.whiteelephantabc.autostock.client.materials.MaterialRequest
 import java.util.stream.Stream
 
@@ -14,11 +15,17 @@ class AutoStockCommand(baritone: IBaritone) : Command(baritone, "stock") {
 		val requests = buildList {
 			while (args.hasAny()) {
 				val item = args.getDatatypeFor(ItemById.INSTANCE)
-				val countArg = args.peek()
-				val count = args.getAs(Int::class.javaObjectType)
+				val count = if (args.hasAny() && args.peek().value.toIntOrNull() != null) {
+					val countArg = args.peek()
+					val value = args.getAs(Int::class.javaObjectType)
 
-				if (count <= 0) {
-					throw CommandInvalidTypeException(countArg, "positive integer", count.toString())
+					if (value <= 0) {
+						throw CommandInvalidTypeException(countArg, "positive integer", value.toString())
+					}
+
+					value
+				} else {
+					AutoStockConfig.defaultItemCount
 				}
 
 				add(MaterialRequest(item, count))
@@ -29,22 +36,19 @@ class AutoStockCommand(baritone: IBaritone) : Command(baritone, "stock") {
 	}
 
 	override fun tabComplete(label: String, args: IArgConsumer): Stream<String> {
-		var index = 0
-
 		while (args.has(2)) {
-			if (index % 2 == 0 && args.peekDatatypeOrNull(ItemById.INSTANCE) == null) {
+			if (args.peekDatatypeOrNull(ItemById.INSTANCE) == null) {
 				return Stream.empty()
 			}
 
 			args.get()
-			index++
+
+			if (args.has(2) && args.peek().value.toIntOrNull() != null) {
+				args.get()
+			}
 		}
 
-		return if (index % 2 == 0) {
-			args.tabCompleteDatatype(ItemById.INSTANCE)
-		} else {
-			Stream.empty()
-		}
+		return args.tabCompleteDatatype(ItemById.INSTANCE)
 	}
 
 	override fun getShortDesc(): String =
@@ -53,10 +57,11 @@ class AutoStockCommand(baritone: IBaritone) : Command(baritone, "stock") {
 	override fun getLongDesc(): List<String> =
 		listOf(
 			"Without arguments, collects the missing materials of the selected Litematica placement.",
-			"With arguments, collects the given items and counts instead.",
+			"With arguments, collects the given items instead.",
+			"An item without an explicit count uses the default item count from the config.",
 			"",
 			"Usage:",
 			"> stock",
-			"> stock <item> <count> [<item> <count> ...]"
+			"> stock <item> [count] [<item> [count] ...]"
 		)
 }

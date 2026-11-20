@@ -25,11 +25,12 @@ The container GUI is never shown; clicks are sent directly to the server.
 
 ```
 #stock
-#stock <item> <count> [<item> <count> ...]
+#stock <item> [count] [<item> [count] ...]
 ```
 
 - `#stock` collects the missing materials of the currently selected Litematica placement.
 - `#stock minecraft:powered_rail 30 minecraft:lever 5` collects the given items and amounts instead, ignoring the schematic list.
+- An item without a count uses the configured default item count (1 by default).
 - The scan center is the player's position when the command is run.
 
 ## Configuration
@@ -39,6 +40,7 @@ The config screen is registered with MaLiLib (mod list -> Litematica AutoStock).
 - `searchRadius` — horizontal search radius (default 16)
 - `verticalRange` — vertical search range (default 16)
 - `containerWhitelist` — block IDs to scan; empty means all containers (default: chests, trapped chests, barrels and all shulker boxes)
+- `defaultItemCount` — count used when an item is given without an explicit count
 - `allowBreakDuringPathing` — whether Baritone may break blocks while pathing (default off)
 - `allowPlaceDuringPathing` — whether Baritone may place blocks while pathing (default on)
 - `showSearchRange` — draw the search range with MiniHUD
